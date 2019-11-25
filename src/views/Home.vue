@@ -1,18 +1,35 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <button class="" @click="callRestService()">
+      TEST
+    </button>
+
+    <h3>{{ response }}</h3>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import axios from "axios";
 
 export default {
-  name: "home",
-  components: {
-    HelloWorld
+  data() {
+    return {
+      response: [],
+      errors: []
+    };
+  },
+  methods: {
+    callRestService() {
+      axios
+        .get(`/api/rule`)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.response = response.data;
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    }
   }
 };
 </script>
