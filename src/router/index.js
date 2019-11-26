@@ -18,9 +18,9 @@ const routes = [
   },
   {
     path: "/rules/:id",
-    name: "rule",
+    name: "rule_detail",
     meta: { layout: "main" },
-    component: () => import("../views/rules/Rule.vue")
+    component: () => import("../views/rules/Detail.vue")
   }
 ];
 

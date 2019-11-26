@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>Name: {{record.name}}</p>
-    <p>Description: {{record.description}}</p>
-    <p>Target: {{record.target}}</p>
-    <p>Condition: {{record.condition}}</p>
-    <p>Effect: {{record.effect}}</p>
-<button>Edit</button>
-<button>Delete</button>
+    <p>Name: {{ record.name }}</p>
+    <p>Description: {{ record.description }}</p>
+    <p>Target: {{ record.target }}</p>
+    <p>Condition: {{ record.condition }}</p>
+    <p>Effect: {{ record.effect }}</p>
+    <button>Edit</button>
+    <button>Delete</button>
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 import api from "@/components/backend-api";
 
 export default {
-  name: "Rule",
+  name: "rule_detail",
   data: () => ({
     record: null
   }),

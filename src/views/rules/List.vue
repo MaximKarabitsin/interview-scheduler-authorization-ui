@@ -9,7 +9,7 @@ import RulesTable from "@/components/RulesTable";
 import api from "@/components/backend-api";
 
 export default {
-  name: "RulesList",
+  name: "rules_List",
   data: () => ({
     rules: []
   }),
@@ -20,7 +20,6 @@ export default {
     api.getRules().then(response => {
         this.rules = response.data
     });
-    console.log(this.rules);
   }
 };
 </script>

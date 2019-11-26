@@ -1,3 +1,5 @@
 node_modules
+nginx.conf
 .git
 .gitignore
+README.md

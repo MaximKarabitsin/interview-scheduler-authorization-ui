@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AXIOS = axios.create({
-  baseURL: `/api`,
+  baseURL: `http://host.docker.internal:8091/api`,
   timeout: 1000
 });
 
