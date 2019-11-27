@@ -1,25 +1,12 @@
 <template>
   <div>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Target</th>
-        <th>Condition</th>
-        <th>Effect</th>
-        <th>Open</th>
-      </tr>
-      <tr v-for="rule of rules" :key="rule.id">
-        <td>{{ rule.name }}</td>
-        <td>{{ rule.description }}</td>
-        <td>{{ rule.target }}</td>
-        <td>{{ rule.condition }}</td>
-        <td>{{ rule.effect }}</td>
-        <td>
-          <button @click="$router.push('/rules/' + rule.id)">+</button>
-        </td>
-      </tr>
-    </table>
+    <v-data-table
+      :headers="headers"
+      :items="rules"
+      :options.sync="options"
+      :server-items-length="totalRules"
+      :loading="loading"
+    ></v-data-table>
   </div>
 </template>
 
@@ -30,6 +17,45 @@ export default {
     rules: {
       required: true,
       type: Array
+    },
+    totalRules: {
+      required: true
+    },
+    loading: {
+      required: true
+    }
+  },
+  data: () => ({
+    options: {},
+    headers: [
+      {
+        text: "Name",
+        value: "name"
+      },
+      {
+        text: "Description",
+        value: "description"
+      },
+      {
+        text: "Target",
+        value: "target"
+      },
+      {
+        text: "Condition",
+        value: "condition"
+      },
+      {
+        text: "Effect",
+        value: "effect"
+      }
+    ]
+  }),
+  watch: {
+    options: {
+      handler() {
+        this.$emit("getRules", this.options);
+      },
+      deep: true
     }
   }
 };
