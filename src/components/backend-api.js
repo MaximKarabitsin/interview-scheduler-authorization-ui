@@ -16,9 +16,12 @@ export default {
     );
   },
   getRuleByID(id) {
-    return AXIOS.get(`/rule/` + id);
+    return AXIOS.get(`/rule/${id}`);
   },
   deleteRuleByID(id) {
-    return AXIOS.delete(`/rule/` + id);
+    return AXIOS.delete(`/rule/${id}`);
+  },
+  putRuleById(id,rule){
+    return AXIOS.put(`/rule/${id}`, rule);
   }
 };

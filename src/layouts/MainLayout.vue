@@ -17,7 +17,7 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        <router-link to="/">
+        <router-link to="/" tag="span" style="cursor: pointer;">
           Service
         </router-link>
       </v-toolbar-title>
@@ -42,6 +42,10 @@ export default {
       {
         title: "Policies",
         url: "/policies"
+      },
+      {
+        title: "Policy Set",
+        url: "/policyset"
       }
     ]
   })

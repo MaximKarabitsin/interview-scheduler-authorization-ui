@@ -16,9 +16,24 @@
         </v-toolbar>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-icon small @click="openRule(item)">open_in_new</v-icon>
-        <v-icon small class="mx-2" @click="editRule(item)">edit</v-icon>
-        <v-icon small @click="deleteRule(item)">delete</v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" small @click="openRule(item)">open_in_new</v-icon>
+          </template>
+          <span>Detail</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" small class="mx-2" @click="editRule(item)">edit</v-icon>
+          </template>
+          <span>Edit</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" small @click="deleteRule(item)">delete</v-icon>
+          </template>
+          <span>Delete</span>
+        </v-tooltip>
       </template>
     </v-data-table>
   </div>
@@ -74,7 +89,7 @@ export default {
   },
   mounted() {},
   methods: {
-    getRulesFromApi() {
+    getRulesFromApi: function() {
       this.loading = true;
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
       let promise;
@@ -99,13 +114,13 @@ export default {
           this.$error(error);
         });
     },
-    openRule(item) {
+    openRule: function(item) {
       this.$router.push(`/rules/${item.id}`);
     },
-    editRule(item) {
+    editRule: function(item) {
       this.$router.push(`/rules/${item.id}/edit`);
     },
-    deleteRule(item) {
+    deleteRule: function(item) {
       api
         .deleteRuleByID(item.id)
         .then(() => {
