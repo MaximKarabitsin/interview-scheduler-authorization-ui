@@ -33,6 +33,30 @@ const routes = [
     name: "rule_edit",
     meta: { layout: "main" },
     component: () => import("../views/rules/Edit.vue")
+  },
+  {
+    path: "/policies",
+    name: "policies_list",
+    meta: { layout: "main" },
+    component: () => import("../views/policies/Table.vue")
+  },
+  {
+    path: "/policies/add",
+    name: "policies_add",
+    meta: { layout: "main" },
+    component: () => import("../views/policies/Add.vue")
+  },
+  {
+    path: "/policies/:id",
+    name: "policies_detail",
+    meta: { layout: "main" },
+    component: () => import("../views/policies/Detail.vue")
+  },
+  {
+    path: "/policies/:id/edit",
+    name: "policies_edit",
+    meta: { layout: "main" },
+    component: () => import("../views/policies/Edit.vue")
   }
 ];
 

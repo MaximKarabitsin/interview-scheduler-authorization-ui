@@ -3,7 +3,7 @@ import axios from "axios";
 const AXIOS = axios.create({
   // baseURL: `http://host.docker.internal:8091/api`,
   baseURL: `http://localhost:8091/api`,
-  timeout: 1000
+  timeout: 5000
 });
 
 export default {
@@ -18,10 +18,33 @@ export default {
   getRuleByID(id) {
     return AXIOS.get(`/rule/${id}`);
   },
+  addRule(rule) {
+    return AXIOS.post(`/rule`, rule);
+  },
   deleteRuleByID(id) {
     return AXIOS.delete(`/rule/${id}`);
   },
-  putRuleById(id,rule){
+  putRuleById(id, rule) {
     return AXIOS.put(`/rule/${id}`, rule);
+  },
+  getAllPolicies() {
+    return AXIOS.get(`/policy`);
+  },
+  getPoliciesByPageAndSort(page, size, sortBy, sortDesc) {
+    return AXIOS.get(
+      `/policy?page=${page}&size=${size}&sortBy=${sortBy}&sortDesc=${sortDesc}`
+    );
+  },
+  getPolicyByID(id) {
+    return AXIOS.get(`/policy/${id}`);
+  },
+  addPolicy(policy) {
+    return AXIOS.post(`/policy`, policy);
+  },
+  deletePolicyByID(id) {
+    return AXIOS.delete(`/policy/${id}`);
+  },
+  putPolicyById(id, policy) {
+    return AXIOS.put(`/policy/${id}`, policy);
   }
 };

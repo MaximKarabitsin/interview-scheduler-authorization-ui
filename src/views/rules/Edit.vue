@@ -11,6 +11,7 @@
       <v-text-field label="Target" v-model="rule.target"></v-text-field>
       <v-text-field label="Condition" v-model="rule.condition"></v-text-field>
       <v-select
+        class="pt-5"
         v-model="rule.effect"
         :items="items"
         item-text="text"

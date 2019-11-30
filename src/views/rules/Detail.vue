@@ -8,15 +8,13 @@
         <v-card-actions v-if="!loading">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-icon v-on="on" class="mx-2" @click="editRule(item)"
-                >edit</v-icon
-              >
+              <v-icon v-on="on" class="mx-2" @click="editRule">edit</v-icon>
             </template>
             <span>Edit</span>
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-icon v-on="on" @click="deleteRule(item)">delete</v-icon>
+              <v-icon v-on="on" @click="deleteRule">delete</v-icon>
             </template>
             <span>Delete</span>
           </v-tooltip>
@@ -40,6 +38,7 @@
           readonly
         ></v-text-field>
         <v-select
+          class="pt-5"
           v-model="rule.effect"
           :items="items"
           item-text="text"
