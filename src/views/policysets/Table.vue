@@ -2,23 +2,23 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="policies"
+      :items="policySets"
       :options.sync="options"
-      :server-items-length="totalPolicies"
+      :server-items-length="totalPolicySets"
       :loading="loading"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Policies</v-toolbar-title>
+          <v-toolbar-title>Policy sets</v-toolbar-title>
           <v-divider class="mx-4" inset vertical> </v-divider>
           <v-spacer></v-spacer>
-          <v-btn color="primary" to="/policies/add">New policy</v-btn>
+          <v-btn color="primary" to="/policysets/add">New policy set</v-btn>
         </v-toolbar>
       </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="openPolicy(item)"
+            <v-icon v-on="on" small @click="openPolicySet(item)"
               >open_in_new</v-icon
             >
           </template>
@@ -26,7 +26,7 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mx-2" @click="editPolicy(item)"
+            <v-icon v-on="on" small class="mx-2" @click="editPolicySet(item)"
               >edit</v-icon
             >
           </template>
@@ -34,7 +34,9 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="deletePolicy(item)">delete</v-icon>
+            <v-icon v-on="on" small @click="deletePolicySet(item)"
+              >delete</v-icon
+            >
           </template>
           <span>Delete</span>
         </v-tooltip>
@@ -47,10 +49,10 @@
 import api from "@/components/backend-api";
 
 export default {
-  name: "policies_table",
+  name: "policy_sets_table",
   data: () => ({
-    policies: [],
-    totalPolicies: 0,
+    policySets: [],
+    totalPolicySets: 0,
     loading: true,
     options: {},
     headers: [
@@ -82,49 +84,49 @@ export default {
   watch: {
     options: {
       handler() {
-        this.getPoliciesFromApi();
+        this.getPolicySetsFromApi();
       },
       deep: true
     }
   },
   mounted() {},
   methods: {
-    getPoliciesFromApi: function() {
+    getPolicySetsFromApi: function() {
       this.loading = true;
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
       let promise;
       if (itemsPerPage > 0) {
         if (sortDesc[0] === undefined) sortDesc[0] = "";
-        promise = api.getPoliciesByPageAndSort(
+        promise = api.getPolicySetsByPageAndSort(
           page,
           itemsPerPage,
           sortBy[0] || "",
           sortDesc[0]
         );
       } else {
-        promise = api.getAllPolicies();
+        promise = api.getAllPolicySets();
       }
       promise
         .then(response => {
-          this.policies = response.data.list;
-          this.totalPolicies = response.data.total;
+          this.policySets = response.data.list;
+          this.totalPolicySets = response.data.total;
           this.loading = false;
         })
         .catch(error => {
           this.$error(error);
         });
     },
-    openPolicy: function(item) {
-      this.$router.push(`/policies/${item.id}`);
+    openPolicySet: function(item) {
+      this.$router.push(`/policysets/${item.id}`);
     },
-    editPolicy: function(item) {
-      this.$router.push(`/policies/${item.id}/edit`);
+    editPolicySet: function(item) {
+      this.$router.push(`/policysets/${item.id}/edit`);
     },
-    deletePolicy: function(item) {
+    deletePolicySet: function(item) {
       api
-        .deletePolicyByID(item.id)
+        .deletePolicySetByID(item.id)
         .then(() => {
-          this.getPoliciesFromApi();
+          this.getPolicySetsFromApi();
         })
         .catch(error => {
           this.$error(error);

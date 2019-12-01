@@ -45,7 +45,7 @@ export default {
       },
       {
         title: "Policy Set",
-        url: "/policyset"
+        url: "/policysets"
       }
     ]
   })

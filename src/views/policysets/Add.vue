@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">Policy</span>
+      <span class="headline">Policy sets</span>
       <v-divider class="mx-4" inset vertical> </v-divider>
       <v-spacer></v-spacer>
     </v-card-title>
@@ -9,53 +9,55 @@
       <form>
         <v-text-field
           label="Name"
-          v-model="policy.name"
+          v-model="policySet.name"
           :error-messages="nameError"
-          @blur="$v.policy.name.$touch()"
+          @blur="$v.policySet.name.$touch()"
         ></v-text-field>
         <v-textarea
           label="Description"
-          v-model="policy.description"
+          v-model="policySet.description"
           :error-messages="descriptionError"
-          @blur="$v.policy.description.$touch()"
+          @blur="$v.policySet.description.$touch()"
         ></v-textarea>
         <v-text-field
           label="Target"
-          v-model="policy.target"
+          v-model="policySet.target"
           :error-messages="targetError"
-          @blur="$v.policy.target.$touch()"
+          @blur="$v.policySet.target.$touch()"
         ></v-text-field>
         <v-select
           class="pt-4"
-          v-model="policy.algorithm"
+          v-model="policySet.algorithm"
           :items="items"
           item-text="text"
           item-value="value"
           label="Combine algorithm"
           :error-messages="algorithmError"
-          @blur="$v.policy.algorithm.$touch()"
+          @blur="$v.policySet.algorithm.$touch()"
           dense
         ></v-select>
         <v-data-table
           class="pt-5"
-          v-model="policy.rules"
+          v-model="policySet.policies"
           :headers="headers"
-          :items="rules"
+          :items="policies"
           :options.sync="options"
-          :server-items-length="totalRules"
-          :loading="loadingRules"
+          :server-items-length="totalPolicies"
+          :loading="loadingPolicies"
           show-select
         >
           <template v-slot:top>
-            <div class="grey--text">Rules</div>
-            <div :class="{ 'error--text': rulesError }">{{ rulesError }}</div>
+            <div class="grey--text">Policies</div>
+            <div :class="{ 'error--text': policiesError }">
+              {{ policiesError }}
+            </div>
             <span> </span>
           </template>
         </v-data-table>
       </form>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" @click="addPolicy">Add</v-btn>
+      <v-btn color="primary" @click="addPolicySet">Add</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -65,7 +67,7 @@ import api from "@/components/backend-api";
 import { required } from "vuelidate/lib/validators";
 
 export default {
-  name: "policy_add",
+  name: "policy_set_add",
   data: () => ({
     headers: [
       {
@@ -81,12 +83,8 @@ export default {
         value: "target"
       },
       {
-        text: "Condition",
-        value: "condition"
-      },
-      {
-        text: "Effect",
-        value: "effect"
+        text: "Combine algorithm",
+        value: "algorithm"
       }
     ],
     items: [
@@ -94,105 +92,105 @@ export default {
       { text: "Allowed if 2 allowed", value: "ALLOWED_IF_2_ALLOWED" }
     ],
     loading: true,
-    rules: [],
-    loadingRules: true,
-    totalRules: 0,
+    policies: [],
+    loadingPolicies: true,
+    totalPolicies: 0,
     options: {},
-    policy: {
+    policySet: {
       name: null,
       description: "",
       target: "",
       algorithm: "",
-      rules: []
+      policies: []
     }
   }),
   computed: {
     nameError: function() {
-      if (this.$v.policy.name.$dirty) {
-        if (!this.$v.policy.name.required) return "Name is required";
+      if (this.$v.policySet.name.$dirty) {
+        if (!this.$v.policySet.name.required) return "Name is required";
       }
       return "";
     },
     descriptionError: function() {
-      if (this.$v.policy.description.$dirty) {
-        if (!this.$v.policy.description.required)
+      if (this.$v.policySet.description.$dirty) {
+        if (!this.$v.policySet.description.required)
           return "Description is required";
       }
       return "";
     },
-
     targetError: function() {
-      if (this.$v.policy.target.$dirty) {
-        if (!this.$v.policy.target.required) return "Target is required";
+      if (this.$v.policySet.target.$dirty) {
+        if (!this.$v.policySet.target.required) return "Target is required";
       }
       return "";
     },
     algorithmError: function() {
-      if (this.$v.policy.algorithm.$dirty) {
-        if (!this.$v.policy.algorithm.required) return "Algorithm is required";
+      if (this.$v.policySet.algorithm.$dirty) {
+        if (!this.$v.policySet.algorithm.required)
+          return "Algorithm is required";
       }
       return "";
     },
-    rulesError: function() {
-      if (this.$v.policy.rules.$dirty) {
-        if (!this.$v.policy.rules.required) return "Rules is required";
+    policiesError: function() {
+      if (this.$v.policySet.policies.$dirty) {
+        if (!this.$v.policySet.policies.required) return "Policies is required";
       }
       return "";
     }
   },
   validations: {
-    policy: {
+    policySet: {
       name: { required },
       description: { required },
       target: { required },
       algorithm: { required },
-      rules: { required }
+      policies: { required }
     }
   },
 
   watch: {
     options: {
       handler() {
-        this.getRulesFromApi();
+        this.getPoliciesFromApi();
       },
       deep: true
     }
   },
   methods: {
-    addPolicy: function() {
+    addPolicySet: function() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       }
       api
-        .addPolicy(this.policy)
+        .addPolicySet(this.policySet)
         .then(() => {
-          this.$router.push(`/policies`);
+          this.$router.push(`/policysets`);
         })
         .catch(() => {
           //console.log(error);
         });
     },
-    getRulesFromApi: function() {
-      this.loadingRules = true;
+    getPoliciesFromApi: function() {
+      this.loadingPolicies = true;
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
       let promise;
       if (itemsPerPage > 0) {
         if (sortDesc[0] === undefined) sortDesc[0] = "";
-        promise = api.getRulesByPageAndSort(
+        promise = api.getPoliciesByPageAndSort(
           page,
           itemsPerPage,
           sortBy[0] || "",
           sortDesc[0]
         );
       } else {
-        promise = api.getAllRules();
+        promise = api.getAllPolicies();
       }
       promise
         .then(response => {
-          this.rules = response.data.list;
-          this.totalRules = response.data.total;
-          this.loadingRules = false;
+          this.policies = response.data.list;
+          this.totalPolicies = response.data.total;
+          this.loadingPolicies = false;
         })
         .catch(error => {
           this.$error(error);

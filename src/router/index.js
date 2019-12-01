@@ -57,6 +57,30 @@ const routes = [
     name: "policies_edit",
     meta: { layout: "main" },
     component: () => import("../views/policies/Edit.vue")
+  },
+  {
+    path: "/policysets",
+    name: "policy_sets_list",
+    meta: { layout: "main" },
+    component: () => import("../views/policysets/Table.vue")
+  },
+  {
+    path: "/policysets/add",
+    name: "policy_sets_add",
+    meta: { layout: "main" },
+    component: () => import("../views/policysets/Add.vue")
+  },
+  {
+    path: "/policysets/:id",
+    name: "policy_sets_detail",
+    meta: { layout: "main" },
+    component: () => import("../views/policysets/Detail.vue")
+  },
+  {
+    path: "/policysets/:id/edit",
+    name: "policy_sets_edit",
+    meta: { layout: "main" },
+    component: () => import("../views/policysets/Edit.vue")
   }
 ];
 

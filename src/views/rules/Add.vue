@@ -122,8 +122,8 @@ export default {
         .then(() => {
           this.$router.push(`/rules`);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          //console.log(error);
         });
     }
   }

@@ -48,15 +48,14 @@ export default {
   },
   methods: {
     editRule: function() {
-      console.log();
       const id = this.$route.params.id;
       api
         .putRuleById(id, this.rule)
         .then(() => {
           this.$router.push(`/rules/${id}`);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          // console.log(error);
         });
     }
   }

@@ -46,5 +46,25 @@ export default {
   },
   putPolicyById(id, policy) {
     return AXIOS.put(`/policy/${id}`, policy);
+  },
+  getAllPolicySets() {
+    return AXIOS.get(`/policyset`);
+  },
+  getPolicySetsByPageAndSort(page, size, sortBy, sortDesc) {
+    return AXIOS.get(
+      `/policyset?page=${page}&size=${size}&sortBy=${sortBy}&sortDesc=${sortDesc}`
+    );
+  },
+  getPolicySetByID(id) {
+    return AXIOS.get(`/policyset/${id}`);
+  },
+  addPolicySet(policy) {
+    return AXIOS.post(`/policyset`, policy);
+  },
+  deletePolicySetByID(id) {
+    return AXIOS.delete(`/policyset/${id}`);
+  },
+  putPolicySetById(id, policy) {
+    return AXIOS.put(`/policyset/${id}`, policy);
   }
 };

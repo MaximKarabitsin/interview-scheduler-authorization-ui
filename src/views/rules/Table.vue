@@ -24,7 +24,9 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mx-2" @click="editRule(item)">edit</v-icon>
+            <v-icon v-on="on" small class="mx-2" @click="editRule(item)"
+              >edit</v-icon
+            >
           </template>
           <span>Edit</span>
         </v-tooltip>
