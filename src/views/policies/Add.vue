@@ -1,63 +1,66 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <span class="headline">Policy</span>
-      <v-divider class="mx-4" inset vertical> </v-divider>
-      <v-spacer></v-spacer>
-    </v-card-title>
-    <v-card-text>
-      <form>
-        <v-text-field
-          label="Name"
-          v-model="policy.name"
-          :error-messages="nameError"
-          @blur="$v.policy.name.$touch()"
-        ></v-text-field>
-        <v-textarea
-          label="Description"
-          v-model="policy.description"
-          :error-messages="descriptionError"
-          @blur="$v.policy.description.$touch()"
-        ></v-textarea>
-        <v-text-field
-          label="Target"
-          v-model="policy.target"
-          :error-messages="targetError"
-          @blur="$v.policy.target.$touch()"
-        ></v-text-field>
-        <v-select
-          class="pt-4"
-          v-model="policy.algorithm"
-          :items="items"
-          item-text="text"
-          item-value="value"
-          label="Combine algorithm"
-          :error-messages="algorithmError"
-          @blur="$v.policy.algorithm.$touch()"
-          dense
-        ></v-select>
-        <v-data-table
-          class="pt-5"
-          v-model="policy.rules"
-          :headers="headers"
-          :items="rules"
-          :options.sync="options"
-          :server-items-length="totalRules"
-          :loading="loadingRules"
-          show-select
-        >
-          <template v-slot:top>
-            <div class="grey--text">Rules</div>
-            <div :class="{ 'error--text': rulesError }">{{ rulesError }}</div>
-            <span> </span>
-          </template>
-        </v-data-table>
-      </form>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn color="primary" @click="addPolicy">Add</v-btn>
-    </v-card-actions>
-  </v-card>
+  <div>
+    <notifications group="error" position="top right" :duration="5000" />
+    <v-card>
+      <v-card-title>
+        <span class="headline">Policy</span>
+        <v-divider class="mx-4" inset vertical> </v-divider>
+        <v-spacer></v-spacer>
+      </v-card-title>
+      <v-card-text>
+        <form>
+          <v-text-field
+            label="Name"
+            v-model="policy.name"
+            :error-messages="nameError"
+            @blur="$v.policy.name.$touch()"
+          ></v-text-field>
+          <v-textarea
+            label="Description"
+            v-model="policy.description"
+            :error-messages="descriptionError"
+            @blur="$v.policy.description.$touch()"
+          ></v-textarea>
+          <v-text-field
+            label="Target"
+            v-model="policy.target"
+            :error-messages="targetError"
+            @blur="$v.policy.target.$touch()"
+          ></v-text-field>
+          <v-select
+            class="pt-4"
+            v-model="policy.algorithm"
+            :items="items"
+            item-text="text"
+            item-value="value"
+            label="Combine algorithm"
+            :error-messages="algorithmError"
+            @blur="$v.policy.algorithm.$touch()"
+            dense
+          ></v-select>
+          <v-data-table
+            class="pt-5"
+            v-model="policy.rules"
+            :headers="headers"
+            :items="rules"
+            :options.sync="options"
+            :server-items-length="totalRules"
+            :loading="loadingRules"
+            show-select
+          >
+            <template v-slot:top>
+              <div class="grey--text">Rules</div>
+              <div :class="{ 'error--text': rulesError }">{{ rulesError }}</div>
+              <span> </span>
+            </template>
+          </v-data-table>
+        </form>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" @click="addPolicy">Add</v-btn>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -169,8 +172,13 @@ export default {
         .then(() => {
           this.$router.push(`/policies`);
         })
-        .catch(() => {
-          //console.log(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     },
     getRulesFromApi: function() {
@@ -194,8 +202,13 @@ export default {
           this.totalRules = response.data.total;
           this.loadingRules = false;
         })
-        .catch(error => {
-          this.$error(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     }
   }

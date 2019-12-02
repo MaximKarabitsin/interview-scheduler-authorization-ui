@@ -1,5 +1,6 @@
 <template>
   <div>
+    <notifications group="error" position="top right" :duration="5000" />
     <v-data-table
       :headers="headers"
       :items="rules"
@@ -112,8 +113,13 @@ export default {
           this.totalRules = response.data.total;
           this.loading = false;
         })
-        .catch(error => {
-          this.$error(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     },
     openRule: function(item) {
@@ -128,9 +134,14 @@ export default {
         .then(() => {
           this.getRulesFromApi();
         })
-        .catch(error => {
-          this.$error(error);
-        });
+              .catch(text => {
+                this.$notify({
+                  group: "error",
+                  type: "error",
+                  title: "Error",
+                  text
+                });
+              });
     }
   }
 };

@@ -2,6 +2,7 @@
   <v-app>
     <component :is="layout">
       <router-view />
+      <notifications group="error" position="bottom left" :speed="500" />
     </component>
   </v-app>
 </template>

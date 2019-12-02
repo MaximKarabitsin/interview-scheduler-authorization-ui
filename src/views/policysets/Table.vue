@@ -1,5 +1,6 @@
 <template>
   <div>
+    <notifications group="error" position="top right" :duration="5000" />
     <v-data-table
       :headers="headers"
       :items="policySets"
@@ -112,8 +113,13 @@ export default {
           this.totalPolicySets = response.data.total;
           this.loading = false;
         })
-        .catch(error => {
-          this.$error(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     },
     openPolicySet: function(item) {
@@ -128,8 +134,13 @@ export default {
         .then(() => {
           this.getPolicySetsFromApi();
         })
-        .catch(error => {
-          this.$error(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     }
   }

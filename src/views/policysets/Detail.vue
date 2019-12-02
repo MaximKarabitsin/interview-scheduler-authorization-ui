@@ -1,5 +1,6 @@
 <template>
   <div>
+    <notifications group="error" position="top right" :duration="5000" />
     <v-card :loading="loading">
       <v-card-title>
         <span class="headline">Policy set</span>
@@ -119,8 +120,13 @@ export default {
         this.policySet = response.data;
         this.loading = false;
       })
-      .catch(() => {
-        //console.log(error);
+      .catch(text => {
+        this.$notify({
+          group: "error",
+          type: "error",
+          title: "Error",
+          text
+        });
       });
   },
   methods: {
@@ -133,8 +139,13 @@ export default {
         .then(() => {
           this.$router.push(`/policysets`);
         })
-        .catch(error => {
-          this.$error(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     },
     openPolicy: function(item) {

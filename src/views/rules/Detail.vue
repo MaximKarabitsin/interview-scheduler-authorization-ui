@@ -1,5 +1,6 @@
 <template>
   <div>
+    <notifications group="error" position="top right" :duration="5000" />
     <v-card :loading="loading">
       <v-card-title>
         <span class="headline">Rule</span>
@@ -73,8 +74,13 @@ export default {
         this.rule = response.data;
         this.loading = false;
       })
-      .catch(() => {
-        //console.log(error);
+      .catch(text => {
+        this.$notify({
+          group: "error",
+          type: "error",
+          title: "Error",
+          text
+        });
       });
   },
   methods: {
@@ -87,8 +93,13 @@ export default {
         .then(() => {
           this.$router.push(`/rules`);
         })
-        .catch(error => {
-          this.$error(error);
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
         });
     }
   }
