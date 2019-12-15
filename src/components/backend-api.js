@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AXIOS = axios.create({
-  // baseURL: `http://host.docker.internal:8091/api`,
+  // host:port for back-server,
   baseURL: `http://localhost:8091/api`,
   timeout: 5000
 });
@@ -52,7 +52,7 @@ export default {
   },
   getPolicySetsByPageAndSort(page, size, sortBy, sortDesc) {
     return AXIOS.get(
-      `/policyset?page=${page}&size=${size}&sortBy=${sortBy}&sortDesc=${sortDesc}`
+      `/policyset?page=${page}&size=${size}&sort=${sortBy},${sortDesc}`
     );
   },
   getPolicySetByID(id) {

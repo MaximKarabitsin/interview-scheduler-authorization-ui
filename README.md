@@ -1,33 +1,22 @@
 # interview-scheduler-authorization-ui
 
-## Docker
 
-```
+## Getting started
+[docker-compose.yml](https://gist.github.com/MaximKarabitsin/66cbb563d0d5711d085656bb8590c78f)
+
+###Installing
+
+```bash
 docker build -t <name-images:tag> .
-docker run --name <name-container> -p 8080:80 <name-images>
-
-or docker compose with back and db
 ```
+or
 
-## Project setup
-```
-npm install
+```bash
+docker push maximkarabitsin/interview-scheduler-authorization-ui
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+###Running
 
-### Compiles and minifies for production
+```bash
+docker run --name <name-container> -p 8090:80 <name-images>
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
