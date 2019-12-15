@@ -12,7 +12,7 @@ export default {
   },
   getRulesByPageAndSort(page, size, sortBy, sortDesc) {
     return AXIOS.get(
-      `/rule?page=${page}&size=${size}&sortBy=${sortBy}&sortDesc=${sortDesc}`
+      `/rule?page=${page}&size=${size}&sort=${sortBy},${sortDesc}`
     );
   },
   getRuleByID(id) {
@@ -32,7 +32,7 @@ export default {
   },
   getPoliciesByPageAndSort(page, size, sortBy, sortDesc) {
     return AXIOS.get(
-      `/policy?page=${page}&size=${size}&sortBy=${sortBy}&sortDesc=${sortDesc}`
+      `/policy?page=${page}&size=${size}&sort=${sortBy},${sortDesc}`
     );
   },
   getPolicyByID(id) {

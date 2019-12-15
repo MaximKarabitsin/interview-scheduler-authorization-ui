@@ -94,19 +94,18 @@ export default {
   methods: {
     getPolicySetsFromApi: function() {
       this.loading = true;
-      const { sortBy, sortDesc, page, itemsPerPage } = this.options;
+      let { page, itemsPerPage } = this.options;
+      let sortBy =
+        this.options.sortBy[0] === undefined ? "" : this.options.sortBy[0];
+      let sortDesc = "ASC";
+      if (this.options.sortDesc[0]) sortDesc = "DESC";
       let promise;
-      if (itemsPerPage > 0) {
-        if (sortDesc[0] === undefined) sortDesc[0] = "";
-        promise = api.getPolicySetsByPageAndSort(
-          page,
-          itemsPerPage,
-          sortBy[0] || "",
-          sortDesc[0]
-        );
-      } else {
-        promise = api.getAllPolicySets();
-      }
+      promise = api.getPolicySetsByPageAndSort(
+        page,
+        itemsPerPage,
+        sortBy,
+        sortDesc
+      );
       promise
         .then(response => {
           this.policySets = response.data.list;

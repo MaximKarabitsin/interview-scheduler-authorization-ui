@@ -9,7 +9,6 @@ RUN npm install
 
 COPY . .
 
-#RUN npm run serve
 RUN npm run build
 
 

@@ -91,8 +91,9 @@ export default {
       }
     ],
     items: [
-      { text: "Allowed if all allowed", value: "ALLOWED_IF_ALL_ALLOWED" },
-      { text: "Allowed if 2 allowed", value: "ALLOWED_IF_2_ALLOWED" }
+      { text: "Permit if all permitted", value: "PERMIT_IF_ALL_PERMITTED" },
+      { text: "Permit if 2 permitted", value: "PERMIT_IF_2_PERMITTED" },
+      { text: "Deny if not permitted", value: "DENY_IF_NOT_PERMITTED" }
     ],
     loading: true,
     policies: [],

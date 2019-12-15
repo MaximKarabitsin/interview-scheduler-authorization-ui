@@ -11,7 +11,7 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Rules</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical> </v-divider>
+          <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-btn color="primary" to="/rules/add">New rule</v-btn>
         </v-toolbar>
@@ -26,8 +26,8 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-icon v-on="on" small class="mx-2" @click="editRule(item)"
-              >edit</v-icon
-            >
+              >edit
+            </v-icon>
           </template>
           <span>Edit</span>
         </v-tooltip>
@@ -94,19 +94,13 @@ export default {
   methods: {
     getRulesFromApi: function() {
       this.loading = true;
-      const { sortBy, sortDesc, page, itemsPerPage } = this.options;
+      let { page, itemsPerPage } = this.options;
+      let sortBy =
+        this.options.sortBy[0] === undefined ? "" : this.options.sortBy[0];
+      let sortDesc = "ASC";
+      if (this.options.sortDesc[0]) sortDesc = "DESC";
       let promise;
-      if (itemsPerPage > 0) {
-        if (sortDesc[0] === undefined) sortDesc[0] = "";
-        promise = api.getRulesByPageAndSort(
-          page,
-          itemsPerPage,
-          sortBy[0] || "",
-          sortDesc[0]
-        );
-      } else {
-        promise = api.getAllRules();
-      }
+      promise = api.getRulesByPageAndSort(page, itemsPerPage, sortBy, sortDesc);
       promise
         .then(response => {
           this.rules = response.data.list;
@@ -134,14 +128,14 @@ export default {
         .then(() => {
           this.getRulesFromApi();
         })
-              .catch(text => {
-                this.$notify({
-                  group: "error",
-                  type: "error",
-                  title: "Error",
-                  text
-                });
-              });
+        .catch(text => {
+          this.$notify({
+            group: "error",
+            type: "error",
+            title: "Error",
+            text
+          });
+        });
     }
   }
 };
